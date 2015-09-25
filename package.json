@@ -2,6 +2,7 @@
     "name": "muzzle",
     "version": "0.0.1",
     "description": "Front end for recon",
+    "private": true,
     "scripts": {
 	"watch": "webpack-dev-server --hot --inline --config webpack.config.js",
 	"test": "echo \"Error: no test specified\" && exit 1"
