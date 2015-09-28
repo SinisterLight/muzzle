@@ -1,0 +1,16 @@
+body {
+    font-family: 'Source Sans Pro';
+}
+
+nav {
+    background-color: #f5f5f5;
+}
+
+td a {
+    color: #3c6082;
+}
+
+.recon-nav-logo {
+    height: 1.4rem;
+    margin-top: 0.2rem;
+}
