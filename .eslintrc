@@ -26,7 +26,7 @@ rules:
   jsx-quotes: [2, prefer-double]
   no-bitwise: 0
   no-dupe-class-members: 2
-  no-multi-spaces: 2
+  no-multi-spaces: 0
   no-restricted-syntax: [2, WithStatement]
   no-shadow: 2
   no-unused-expressions: 2
