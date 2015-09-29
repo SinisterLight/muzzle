@@ -4,15 +4,24 @@ import { Router, Link } from 'react-router'
 import '../css/muzzle.css' // Try loading common css in html itself
 
 const App = (props) => {
+  var t = {
+    position: 'relative',
+    padding: '1rem',
+    margin: '1rem -1rem',
+    border: 'solid #f7f7f9',
+    borderWidth: '.2rem 0 0',
+  }
   return (
-      <div>
+    <div>
       <br/>
       <ul>
-      <li><Link to="/">Home</Link></li>
-      <li><Link to="/about">About</Link></li>
-      <li><Link to="/inbox">Inbox</Link></li>
+	<li><Link to="/">Home</Link></li>
+	<li><Link to="/about">About</Link></li>
+	<li><Link to="/inbox">Inbox</Link></li>
       </ul>
-      {props.children}
+      <div style={t}>
+	{props.children}
+      </div>
     </div>
   )
 }
@@ -35,6 +44,6 @@ const routes = {
 }
 
 ReactDOM.render(
-    <Router routes={routes} />,
+  <Router routes={routes} />,
   document.getElementById('example')
 )
