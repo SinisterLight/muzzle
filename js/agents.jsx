@@ -1,4 +1,5 @@
 import React from 'react'
+import { Link } from 'react-router'
 
 export const AgentsStatus = (props) => {
   return (
@@ -15,7 +16,7 @@ export const AgentsStatus = (props) => {
 	  {
 	    props.data.map(
 	      (result) => {
-	            return <AgentWrapper key={result.uid} data={result}/>
+		return <AgentWrapper key={result.uid} data={result}/>
 	      }
 	    )
 	  }
@@ -26,7 +27,7 @@ export const AgentsStatus = (props) => {
 };
 
 const AgentWrapper = (props) => {
-  var agentLink = 'agent.html?uid='+props.data.uid;
+  var agentLink = '/agents/'+props.data.uid;
   var styles = {
     online: {
       padding: '0.4rem',
@@ -43,7 +44,7 @@ const AgentWrapper = (props) => {
   };
   return(
     <tr>
-      <td><a href={agentLink}>{props.data.host_name}</a></td>
+      <td><Link to={agentLink}>{props.data.host_name}</Link></td>
       <td>{(props.data.status === 'online')?<span style={styles.online}>ONLINE</span>:<span style={styles.offline}>OFFLINE</span>}</td>
     </tr>
   );
