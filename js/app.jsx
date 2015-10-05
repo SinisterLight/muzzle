@@ -25,10 +25,10 @@ const Navbar = (props) => {
       </Link>
       <ul className="nav nav-pills">
         <li className="nav-item">
-          <Link to="/about" activeClassName="active" className="nav-link">About</Link>
+	  <Link to="/agents" activeClassName="active" className="nav-link">Agents</Link>
       </li>
       <li className="nav-item">
-	<Link to="/inbox" activeClassName="active" className="nav-link">Inbox</Link>
+        <Link to="/about" activeClassName="active" className="nav-link">About</Link>
       </li>
       </ul>
     </nav>
@@ -39,16 +39,16 @@ const About = (props) => {
   return <p>About</p>
 }
 
-const Inbox = (props) => {
-  return <p>Inbox</p>
+const Agents = (props) => {
+  return <p>Agents</p>
 }
 
 const routes = {
   path: '/',
   component: App,
   childRoutes: [
+    { path: 'agents', component: Agents },
     { path: 'about', component: About },
-    { path: 'inbox', component: Inbox },
   ],
 }
 
