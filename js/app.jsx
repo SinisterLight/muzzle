@@ -1,6 +1,6 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
-import { Router, Link } from 'react-router'
+import { Router, Link, Route } from 'react-router'
 import '../css/muzzle.css' // Try loading common css in html itself
 import { AgentsStatus } from './agents'
 
@@ -10,9 +10,29 @@ const App = (props) => {
       <Navbar />
       <div className="container">
 	<div>
-	  {props.children}
+	  {props.children || <Home/>}
 	</div>
       </div>
+    </div>
+  )
+}
+
+const Home = (props) => {
+  var styles = {
+    errorBox: {
+      marginLeft: '25%',
+      marginRight: '25%',
+      position: 'absolute',
+      textAlign: 'center',
+      top: '40%',
+    },
+  }
+  return (
+    <div style={styles.errorBox}>
+      <h2>Welcome to Recon</h2>
+      <p>
+	Defaut dashboard?
+      </p>
     </div>
   )
 }
@@ -28,8 +48,21 @@ const Navbar = (props) => {
 	  <Link to="/agents" activeClassName="active" className="nav-link">Agents</Link>
       </li>
       <li className="nav-item">
+        <Link to="/dashboards" activeClassName="active" className="nav-link">Dashboards</Link>
+      </li>
+      <li className="nav-item">
         <Link to="/about" activeClassName="active" className="nav-link">About</Link>
       </li>
+      <div className="pull-right dropdown">
+	<button className="btn btn-primary-outline dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+	  Hari haran
+	</button>
+	<div className="dropdown-menu" aria-labelledby="dropdownMenu1">
+	  <a className="dropdown-item" href="#">Profile</a>
+	  <a className="dropdown-item" href="#">Settings</a>
+	  <a className="dropdown-item" href="#">Log Out</a>
+	</div>
+      </div>
       </ul>
     </nav>
   )
@@ -46,16 +79,42 @@ const Agents = (props) => {
   return <AgentsStatus data={testData}/>
 }
 
-const routes = {
-  path: '/',
-  component: App,
-  childRoutes: [
-    { path: 'agents', component: Agents },
-    { path: 'about', component: About },
-  ],
+const Agent = (props) => {
+  return (
+    <p>Agent {props.uid}</p>
+  )
+}
+
+const NoMatch = (props) => {
+  var styles = {
+    errorBox: {
+      marginLeft: '25%',
+      marginRight: '25%',
+      position: 'absolute',
+      textAlign: 'center',
+      top: '40%',
+    },
+  }
+  return (
+    <div style={styles.errorBox}>
+      <h2>Sorry, this page isn't available.</h2>
+      <p>
+        The link you followed may be broken, or the page may have been removed.
+      </p>
+      <p><Link to="/" className="btn btn-primary">Go back to Home.</Link></p>
+    </div>
+  )
 }
 
 ReactDOM.render(
-  <Router routes={routes} />,
+  <Router>
+    <Route path="/" component={App}>
+      <Route path="agents" component={Agents}/>
+      <Route path="about" component={About}>
+	<Route path="/agent/:uid" component={Agent}/>
+      </Route>
+      <Route path="*" component={NoMatch}/>
+    </Route>
+  </Router>,
   document.getElementById('muzzle')
 )
