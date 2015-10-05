@@ -2,7 +2,7 @@ import React from 'react'
 import ReactDOM from 'react-dom'
 import { Router, Link } from 'react-router'
 import '../css/muzzle.css' // Try loading common css in html itself
-import { AgentsStatus } from './agents.jsx'
+import { AgentsStatus } from './agents'
 
 const App = (props) => {
   return (
