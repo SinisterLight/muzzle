@@ -58,9 +58,9 @@ const Navbar = (props) => {
 	  Hari haran
 	</button>
 	<div className="dropdown-menu" aria-labelledby="dropdownMenu1">
-	  <a className="dropdown-item" href="#">Profile</a>
-	  <a className="dropdown-item" href="#">Settings</a>
-	  <a className="dropdown-item" href="#">Log Out</a>
+	  <Link className="dropdown-item" to="/profile">Profile</Link>
+	  <Link className="dropdown-item" to="/settings">Settings</Link>
+	  <Link className="dropdown-item" to="/logout">Log Out</Link>
 	</div>
       </div>
       </ul>
@@ -81,7 +81,7 @@ const Agents = (props) => {
 
 const Agent = (props) => {
   return (
-    <p>Agent {props.uid}</p>
+    <p>Agent {props.params.uid}</p>
   )
 }
 
@@ -109,10 +109,9 @@ const NoMatch = (props) => {
 ReactDOM.render(
   <Router>
     <Route path="/" component={App}>
-      <Route path="agents" component={Agents}/>
-      <Route path="about" component={About}>
-	<Route path="/agent/:uid" component={Agent}/>
-      </Route>
+      <Route path="agents" component={Agents} />
+      <Route path="agents/:uid" component={Agent} />
+      <Route path="about" component={About} />
       <Route path="*" component={NoMatch}/>
     </Route>
   </Router>,
