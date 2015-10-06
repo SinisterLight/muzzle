@@ -2,7 +2,7 @@ import React from 'react'
 import ReactDOM from 'react-dom'
 import { Router, Link, Route } from 'react-router'
 import '../css/muzzle.css' // Try loading common css in html itself
-import { AgentsStatus } from './agents'
+import { FilterableAgentTable } from './components/FilterableAgentTable'
 
 const App = (props) => {
   return (
@@ -77,9 +77,9 @@ const Agents = (props) => {
   var testData = [
     {'uid':'528ba2ef43ae','host_name':'vision','registered_at':'2015-09-04T17:07:00.914+05:30','updated_at':'2015-09-16T13:00:03.712+05:30','status':'online'},
     {'uid':'526ba2ef43ae','host_name':'ironlegion_message_queue','registered_at':'2015-09-04T17:07:00.914+05:30','updated_at':'2015-09-15T17:05:47.789+05:30','status':'online'},
-    {'uid':'524ba2ef43ae','host_name':'jarvis_loadbalancer_nginx','registered_at':'2015-09-04T17:07:00.914+05:30','updated_at':'2015-09-15T17:05:47.789+05:30','status':'offline'}
+    {'uid':'524ba2ef43ae','host_name':'jarvis_loadbalancer_nginx','registered_at':'2015-09-04T17:07:00.914+05:30','updated_at':'2015-09-15T17:05:47.789+05:30','status':'offline'},
   ];
-  return <AgentsStatus data={testData}/>
+  return <FilterableAgentTable agents={testData}/>
 }
 
 const Agent = (props) => {
