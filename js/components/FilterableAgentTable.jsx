@@ -7,11 +7,13 @@ export class FilterableAgentTable extends React.Component {
     super(props)
       this.state = {
 	filterText: '',
+	offlineOnly: false,
       }
   }
-  handleUserInput(filterText) {
+  handleUserInput(filterText, offlineOnly) {
     this.setState({
       filterText: filterText,
+      offlineOnly: offlineOnly,
     })
   }
   render() {
@@ -21,12 +23,14 @@ export class FilterableAgentTable extends React.Component {
 	<h5>AGENTS</h5>
 	<AgentSearchBar
 		filterText={this.state.filterText}
+		offlineOnly={this.state.offlineOnly}
 		onUserInput={this.handleUserInput.bind(this)}
 	/>
 	<br />
-	<AgentTable 
+	<AgentTable
 		agents={this.props.agents}
 		filterText={this.state.filterText}
+		offlineOnly={this.state.offlineOnly}
 	/>
       </div>
     )
@@ -39,23 +43,37 @@ class AgentSearchBar extends React.Component {
     this.handleChange = this.handleChange.bind(this);
   }
   handleChange() {
-    console.log(ReactDOM.findDOMNode(this.refs.filterTextInput).value)
-    this.props.onUserInput(ReactDOM.findDOMNode(this.refs.filterTextInput).value)
+    console.log(ReactDOM.findDOMNode(this.refs.filterTextInput).value) // delete this
+    this.props.onUserInput(
+      ReactDOM.findDOMNode(this.refs.filterTextInput).value,
+      ReactDOM.findDOMNode(this.refs.offlineOnlyInput).checked
+    )
   }
   render() {
     return (
       <form className="form-inline">
 	<div className="form-group">
-	  <input 
+	  <input
 		  style={{fontWeight: 500}}
-		  type="text" 
-		  className="form-control" 
-		  ref="filterTextInput" 
-		  placeholder="Filter by host name" 
+		  type="text"
+		  className="form-control"
+		  ref="filterTextInput"
+		  placeholder="Filter by host name"
 		  onChange={this.handleChange}
 	  />
+	  <label class="checkbox-inline" style={{paddingLeft: "1.25rem"}}>
+	    <input
+		    type="checkbox"
+		    checked={this.props.offlineOnly}
+		    ref="offlineOnlyInput"
+		    onChange={this.handleChange}
+	    />
+	    {' '}
+	    Only show OFFLINE agents
+	  </label>
 	</div>
       </form>
+
     )
   }
 }
@@ -65,7 +83,7 @@ class AgentTable extends React.Component {
     var rows = []
     this.props.agents.forEach(
       (agent) => {
-	if (agent.host_name.toLowerCase().indexOf(this.props.filterText.toLowerCase()) === -1) {
+	if ((agent.host_name.toLowerCase().indexOf(this.props.filterText.toLowerCase()) === -1) || ((agent.status == "online") && this.props.offlineOnly)) {
 	  return
 	}
 	rows.push(<AgentRow agent={agent} key={agent.uid} />)
