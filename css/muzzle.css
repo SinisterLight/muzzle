@@ -15,3 +15,7 @@ td a {
     height: 1.4rem;
     margin-top: 0.2rem;
 }
+
+.dropdown-item {
+    color: #626466;
+}
