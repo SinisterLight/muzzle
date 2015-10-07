@@ -86,14 +86,40 @@ const About = (props) => {
   )
 }
 
-const Agents = (props) => {
-  // TODO: Get the data from marksman's API
-  var testData = [
-    {'uid':'528ba2ef43ae','host_name':'vision','registered_at':'2015-09-04T17:07:00.914+05:30','updated_at':'2015-09-16T13:00:03.712+05:30','status':'online'},
-    {'uid':'526ba2ef43ae','host_name':'ironlegion_message_queue','registered_at':'2015-09-04T17:07:00.914+05:30','updated_at':'2015-09-15T17:05:47.789+05:30','status':'online'},
-    {'uid':'524ba2ef43ae','host_name':'jarvis_loadbalancer_nginx','registered_at':'2015-09-04T17:07:00.914+05:30','updated_at':'2015-09-15T17:05:47.789+05:30','status':'offline'},
-  ];
-  return <FilterableAgentTable agents={testData}/>
+class Agents extends React.Component {
+  render() {
+    return <AgentTableWrapper source="http://localhost:3000/api/agents" pollInterval={2000}/>
+  }
+}
+
+class AgentTableWrapper extends React.Component {
+  constructor(props) {
+    super(props);
+    this.loadDataFromServer = this.loadDataFromServer.bind(this);
+    this.state = {
+      data: [],
+    }
+  }
+  loadDataFromServer() {
+    $.ajax({
+      url: this.props.source,
+      dataType: 'json',
+      cache: false,
+      success: function(data) {
+        this.setState({data: data});
+      }.bind(this),
+      error: function(xhr, status, err) {
+        console.error(this.props.url, status, err.toString());
+      }.bind(this),
+    })
+  }
+  componentDidMount() {
+    this.loadDataFromServer();
+    setInterval(this.loadDataFromServer, this.props.pollInterval);
+  }
+  render() {
+    return <FilterableAgentTable agents={this.state.data}/>
+  }
 }
 
 const Agent = (props) => {
