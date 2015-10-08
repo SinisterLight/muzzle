@@ -52,7 +52,7 @@ class AgentSearchBar extends React.Component {
   render() {
     return (
       <form className="form-inline">
-        <div className="form-group">
+        <div className="form-group" style={{marginRight: "1rem"}}>
           <input
                   style={{fontWeight: 500}}
                   type="text"
@@ -61,7 +61,9 @@ class AgentSearchBar extends React.Component {
                   placeholder="Filter by host name"
                   onChange={this.handleChange}
           />
-          <label style={{paddingLeft: '1.25rem'}}>
+        </div>
+        <div className="checkbox">
+          <label>
             <input
                     type="checkbox"
                     checked={this.props.offlineOnly}
@@ -73,7 +75,6 @@ class AgentSearchBar extends React.Component {
           </label>
         </div>
       </form>
-
     )
   }
 }
