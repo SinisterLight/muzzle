@@ -52,7 +52,8 @@ class AgentSearchBar extends React.Component {
   render() {
     return (
       <form className="form-inline">
-        <div className="form-group" style={{marginRight: "1rem"}}>
+
+        <div className="form-group" style={{marginRight: '1rem'}}>
           <input
                   style={{fontWeight: 500}}
                   type="text"
