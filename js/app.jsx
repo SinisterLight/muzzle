@@ -88,7 +88,7 @@ const About = (props) => {
 
 class Agents extends React.Component {
   render() {
-    return <AgentTableWrapper source="http://localhost:3000/api/agents" pollInterval={2000}/>
+    return <AgentTableWrapper source="http://192.168.1.119:3000/api/agents" pollInterval={2000}/>
   }
 }
 

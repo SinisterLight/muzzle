@@ -18,7 +18,7 @@ export class FilterableAgentTable extends React.Component {
   }
   render() {
     return (
-      <div>
+      <div className="container">
         <br />
         <h5>AGENTS</h5>
         <AgentSearchBar
@@ -27,7 +27,7 @@ export class FilterableAgentTable extends React.Component {
                 onUserInput={this.handleUserInput.bind(this)}
         />
         <br />
-        <AgentTable
+        <AgentGrid
                 agents={this.props.agents}
                 filterText={this.state.filterText}
                 offlineOnly={this.state.offlineOnly}
@@ -72,7 +72,7 @@ class AgentSearchBar extends React.Component {
                     onChange={this.handleChange}
             />
             {' '}
-            Only show OFFLINE agents
+            Only show offline agents
           </label>
         </div>
       </form>
@@ -80,7 +80,7 @@ class AgentSearchBar extends React.Component {
   }
 }
 
-class AgentTable extends React.Component {
+class AgentGrid extends React.Component {
   render() {
     var rows = [];
     this.props.agents.forEach(
@@ -88,45 +88,94 @@ class AgentTable extends React.Component {
         if ((agent.host_name.toLowerCase().indexOf(this.props.filterText.toLowerCase()) === -1) || ((agent.status == 'online') && this.props.offlineOnly)) {
           return
         }
-        rows.push(<AgentRow agent={agent} key={agent.uid} />)
+        rows.push(<AgentBox agent={agent} key={agent.uid} />)
       }
     );
     return (
-      <table className="table">
-        <thead>
-          <tr>
-            <th>Host</th>
-            <th>Status</th>
-          </tr>
-        </thead>
-        <tbody>{rows}</tbody>
-      </table>
+      <div>
+      {rows}
+      </div>
     )
   }
 }
 
-class AgentRow extends React.Component {
+class AgentBox extends React.Component {
   render() {
     var agentLink = '/agents/'+this.props.agent.uid;
     var styles = {
       online: {
         padding: '0.4rem',
-        color:'#fff',
-        backgroundColor:'#6cc644',
+        color:'#004400',
+        backgroundColor:'#88cc88',
         borderRadius: '0.2rem',
+        margin: '0.2rem',
       },
       offline: {
         padding: '0.4rem',
-        color:'#fff',
-        backgroundColor:'#d32f2f',
+        color:'#550000',
+        backgroundColor:'#ffaaaa',
         borderRadius: '0.2rem',
+        margin: '0.2rem',
+      },
+      hostname: {
+        offline: {
+          fontWeight: '700',
+          width:'100%',
+          borderRadius:'0.2rem',
+        },
+        online: {
+          fontWeight: '700',
+          width:'100%',
+          borderRadius:'0.2rem',
+        },
       },
     };
     return(
-      <tr>
-        <td><Link to={agentLink}>{this.props.agent.host_name}</Link></td>
-        <td>{(this.props.agent.status === 'online')?<span style={styles.online}>ONLINE</span>:<span style={styles.offline}>OFFLINE</span>}</td>
-      </tr>
+      <Link to={agentLink}>
+      <div className="col-md-3" style={styles[this.props.agent.status]}>
+        <div style={styles.hostname[this.props.agent.status]}>{this.props.agent.host_name}</div>
+        <div>{this.props.agent.status}</div><MemoryPercentage uid={this.props.agent.uid} status={this.props.agent.status} pollInterval={2000}/>
+      </div>
+      </Link>
     )
+  }
+}
+
+class MemoryPercentage extends React.Component {
+  constructor(props) {
+    super(props);
+    this.loadDataFromServer = this.loadDataFromServer.bind(this);
+    this.state = {
+      data: [],
+    }
+  }
+
+  loadDataFromServer() {
+    $.ajax({
+      url: 'http://192.168.1.119:3000/api/events?uid='+this.props.uid+'&policy_name=default_system_data',
+      dataType: 'json',
+      cache: false,
+      success: function(data) {
+        this.setState({data: data});
+      }.bind(this),
+      error: function(xhr, status, err) {
+        console.error(this.props.url, status, err.toString());
+      }.bind(this),
+    })
+  }
+  componentDidMount() {
+    this.loadDataFromServer();
+    setInterval(this.loadDataFromServer, this.props.pollInterval);
+  }
+  render() {
+    if (this.props.status === 'offline' ||this.state.data === null || this.state.data.length === 0) {
+      return  <p>Memory: unknown</p>
+    } else {
+      var m = this.state.data[this.state.data.length-1];
+      var activeMemory = m.Data.memory.active.substring(0,m.Data.memory.active.length-3);
+      var totalMemory = m.Data.memory.total.substring(0,m.Data.memory.total.length-3);
+      var activeMemPercentage = activeMemory/totalMemory * 100;
+      return  <p>Memory: {activeMemPercentage.toFixed(2)} %</p>
+    }
   }
 }
