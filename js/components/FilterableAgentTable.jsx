@@ -131,17 +131,18 @@ class AgentBox extends React.Component {
       },
     };
     return(
-      <Link to={agentLink}>
+      <Link to={agentLink} style={{textDecoration:'none'}}>
       <div className="col-md-3" style={styles[this.props.agent.status]}>
         <div style={styles.hostname[this.props.agent.status]}>{this.props.agent.host_name}</div>
-        <div>{this.props.agent.status}</div><MemoryPercentage uid={this.props.agent.uid} status={this.props.agent.status} pollInterval={2000}/>
+        <div>{this.props.agent.status}</div>
+        <SummarizedSystemData uid={this.props.agent.uid} status={this.props.agent.status} pollInterval={2000}/>
       </div>
       </Link>
     )
   }
 }
 
-class MemoryPercentage extends React.Component {
+class SummarizedSystemData extends React.Component {
   constructor(props) {
     super(props);
     this.loadDataFromServer = this.loadDataFromServer.bind(this);
@@ -168,14 +169,20 @@ class MemoryPercentage extends React.Component {
     setInterval(this.loadDataFromServer, this.props.pollInterval);
   }
   render() {
-    if (this.props.status === 'offline' ||this.state.data === null || this.state.data.length === 0) {
-      return  <p>Memory: unknown</p>
-    } else {
-      var m = this.state.data[this.state.data.length-1];
-      var activeMemory = m.Data.memory.active.substring(0,m.Data.memory.active.length-3);
-      var totalMemory = m.Data.memory.total.substring(0,m.Data.memory.total.length-3);
-      var activeMemPercentage = activeMemory/totalMemory * 100;
-      return  <p>Memory: {activeMemPercentage.toFixed(2)} %</p>
-    }
+    return (
+      <MemoryData status={this.props.status} data={this.state.data}/>
+    )
+  }
+}
+
+const MemoryData = (props) => {
+  if (props.status === 'offline' ||props.data === null || props.data.length === 0) {
+    return <p>Active Memory: unknown</p>
+  } else {
+    var m = props.data[props.data.length-1];
+    var activeMemory = m.Data.memory.active.substring(0, m.Data.memory.active.length-3);
+    var totalMemory = m.Data.memory.total.substring(0, m.Data.memory.total.length-3);
+    var activeMemPercentage = activeMemory/totalMemory * 100;
+    return <p>Active Memory: {activeMemPercentage.toFixed(2)} %</p>
   }
 }
