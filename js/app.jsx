@@ -115,7 +115,10 @@ class AgentTableWrapper extends React.Component {
   }
   componentDidMount() {
     this.loadDataFromServer();
-    setInterval(this.loadDataFromServer, this.props.pollInterval);
+    this.intervalID = setInterval(this.loadDataFromServer, this.props.pollInterval);
+  }
+  componentWillUnmount() {
+    clearInterval(this.intervalID);
   }
   render() {
     return <FilterableAgentTable agents={this.state.data}/>

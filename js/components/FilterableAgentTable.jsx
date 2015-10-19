@@ -43,7 +43,6 @@ class AgentSearchBar extends React.Component {
     this.handleChange = this.handleChange.bind(this);
   }
   handleChange() {
-    console.log(ReactDOM.findDOMNode(this.refs.filterTextInput).value); // delete this
     this.props.onUserInput(
       ReactDOM.findDOMNode(this.refs.filterTextInput).value,
       ReactDOM.findDOMNode(this.refs.offlineOnlyInput).checked
@@ -168,7 +167,10 @@ class SummarizedSystemData extends React.Component {
   }
   componentDidMount() {
     this.loadDataFromServer();
-    setInterval(this.loadDataFromServer, this.props.pollInterval);
+    this.intervalID = setInterval(this.loadDataFromServer, this.props.pollInterval);
+  }
+  componentWillUnmount() {
+    clearInterval(this.intervalID);
   }
   render() {
     return (
