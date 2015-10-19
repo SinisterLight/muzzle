@@ -109,6 +109,7 @@ class AgentBox extends React.Component {
         backgroundColor:'#88cc88',
         borderRadius: '0.2rem',
         margin: '0.2rem',
+        height: '8rem',
       },
       offline: {
         padding: '0.4rem',
@@ -116,6 +117,7 @@ class AgentBox extends React.Component {
         backgroundColor:'#ffaaaa',
         borderRadius: '0.2rem',
         margin: '0.2rem',
+        height: '8rem',
       },
       hostname: {
         offline: {
@@ -170,19 +172,21 @@ class SummarizedSystemData extends React.Component {
   }
   render() {
     return (
-      <MemoryData status={this.props.status} data={this.state.data}/>
+      <div>
+        <MemoryData status={this.props.status} data={this.state.data}/>
+      </div>
     )
   }
 }
 
 const MemoryData = (props) => {
   if (props.status === 'offline' ||props.data === null || props.data.length === 0) {
-    return <p>Active Memory: unknown</p>
+    return <div>Active Memory: unknown</div>
   } else {
     var m = props.data[props.data.length-1];
     var activeMemory = m.Data.memory.active.substring(0, m.Data.memory.active.length-3);
     var totalMemory = m.Data.memory.total.substring(0, m.Data.memory.total.length-3);
     var activeMemPercentage = activeMemory/totalMemory * 100;
-    return <p>Active Memory: {activeMemPercentage.toFixed(2)} %</p>
+    return <div>Active Memory: {activeMemPercentage.toFixed(2)} %</div>
   }
 }
