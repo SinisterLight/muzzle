@@ -1,20 +1,48 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
-import { Router, Link, Route } from 'react-router'
+import { Router, Link, Route, History } from 'react-router'
+import { createHashHistory } from 'history'
 import '../css/muzzle.css' // Try loading common css in html itself
 import { FilterableAgentTable } from './components/FilterableAgentTable'
+import { Auth } from './auth'
 
-const App = (props) => {
-  return (
-    <div>
-      <Navbar />
-      <div className="container">
-	<div>
-	  {props.children || <Home/>}
-	</div>
-      </div>
-    </div>
-  )
+class App extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      loggedIn: Auth.loggedIn(),
+    }
+    this.updateAuth = this.updateAuth.bind(this);
+  }
+  updateAuth(loggedIn) {
+    this.setState({
+      loggedIn: loggedIn,
+    })
+  }
+  componentWillMount() {
+    Auth.onChange = this.updateAuth
+    Auth.login()
+  }
+  render() {
+    if (this.state.loggedIn) {
+      return (
+        <div>
+          <Navbar />
+          <div className="container">
+            {Auth.getToken()}
+            <Link to="/logout">Log out</Link>
+	    <div>
+	      {this.props.children || <Home/>}
+	    </div>
+          </div>
+        </div>
+      )
+    } else {
+      return (
+        <Link to="/login">Sign in</Link>
+      )
+    }
+  }
 }
 
 const Home = (props) => {
@@ -42,28 +70,28 @@ const Navbar = (props) => {
     <nav className="navbar navbar-default navbar-static-top">
       <Link to="/" className="navbar-brand">
       <img className="recon-nav-logo" src="static/recon-logo-85x23.png" />
-      </Link>
-      <ul className="nav nav-pills">
-        <li className="nav-item">
-	  <Link to="/agents" activeClassName="active" className="nav-link">Agents</Link>
-      </li>
-      <li className="nav-item">
-        <Link to="/dashboards" activeClassName="active" className="nav-link">Dashboards</Link>
-      </li>
-      <li className="nav-item">
-        <Link to="/about" activeClassName="active" className="nav-link">About</Link>
-      </li>
-      <div className="pull-right dropdown">
-	<button className="btn btn-primary-outline dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-	  Hari haran
-	</button>
-	<div className="dropdown-menu" aria-labelledby="dropdownMenu1">
-	  <Link className="dropdown-item" to="/profile">Profile</Link>
-	  <Link className="dropdown-item" to="/settings">Settings</Link>
-	  <Link className="dropdown-item" to="/logout">Log Out</Link>
-	</div>
-      </div>
-      </ul>
+            </Link>
+            <ul className="nav nav-pills">
+              <li className="nav-item">
+	        <Link to="/agents" activeClassName="active" className="nav-link">Agents</Link>
+            </li>
+            <li className="nav-item">
+              <Link to="/dashboards" activeClassName="active" className="nav-link">Dashboards</Link>
+            </li>
+            <li className="nav-item">
+              <Link to="/about" activeClassName="active" className="nav-link">About</Link>
+            </li>
+            <div className="pull-right dropdown">
+	      <button className="btn btn-primary-outline dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+	        Hari haran
+	      </button>
+	      <div className="dropdown-menu" aria-labelledby="dropdownMenu1">
+	        <Link className="dropdown-item" to="/profile">Profile</Link>
+	        <Link className="dropdown-item" to="/settings">Settings</Link>
+	        <Link className="dropdown-item" to="/logout">Log Out</Link>
+	      </div>
+            </div>
+            </ul>
     </nav>
   )
 }
@@ -152,11 +180,73 @@ const NoMatch = (props) => {
   )
 }
 
+var Login = React.createClass({
+  mixins: [ History ],
+
+  getInitialState() {
+    return {
+      error: false,
+    }
+  },
+
+  handleSubmit(event) {
+    event.preventDefault();
+
+    var email = ReactDOM.findDOMNode(this.refs.email).value
+    var pass =  ReactDOM.findDOMNode(this.refs.pass).value
+
+    Auth.login(email, pass, (loggedIn) => {
+      if (!loggedIn) {
+        return this.setState({ error: true })
+      }
+
+      var { location } = this.props
+
+      if (location.state && location.state.nextPathname) {
+        this.history.replaceState(null, location.state.nextPathname)
+      } else {
+        this.history.replaceState(null, '/agents')
+      }
+    })
+  },
+
+  render() {
+    return (
+      <form onSubmit={this.handleSubmit}>
+        <label><input ref="email" type="email" placeholder="email" defaultValue="joe@example.com" /></label>
+        <label><input ref="pass" type="password" placeholder="password" /></label> (hint: password1)<br />
+        <button type="submit">login</button>
+        {this.state.error && (
+           <p>Bad login information</p>
+         )}
+      </form>
+    )
+  },
+});
+
+class Logout extends React.Component {
+  componentDidMount() {
+    Auth.logout()
+  }
+  render() {
+    return <p>You are now logged out</p>
+  }
+}
+
+function requireAuth(nextState, replaceState) {
+  if (!Auth.loggedIn())
+    replaceState({ nextPathname: nextState.location.pathname }, '/login')
+}
+
+const history = createHashHistory();
+
 ReactDOM.render(
-  <Router>
+  <Router history={history}>
+    <Route path="login" component={Login} />
+    <Route path="logout" component={Logout} />
     <Route path="/" component={App}>
-      <Route path="agents" component={Agents} />
-      <Route path="agents/:uid" component={Agent} />
+      <Route path="agents" component={Agents} onEnter={requireAuth} />
+      <Route path="agents/:uid" component={Agent} onEnter={requireAuth}/>
       <Route path="about" component={About} />
       <Route path="*" component={NoMatch}/>
     </Route>
