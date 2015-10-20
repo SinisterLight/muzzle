@@ -244,9 +244,9 @@ ReactDOM.render(
   <Router history={history}>
     <Route path="login" component={Login} />
     <Route path="logout" component={Logout} />
-    <Route path="/" component={App}>
-      <Route path="agents" component={Agents} onEnter={requireAuth} />
-      <Route path="agents/:uid" component={Agent} onEnter={requireAuth}/>
+    <Route path="/" component={App} onEnter={requireAuth}>
+      <Route path="agents" component={Agents} />
+      <Route path="agents/:uid" component={Agent}/>
       <Route path="about" component={About} />
       <Route path="*" component={NoMatch}/>
     </Route>
