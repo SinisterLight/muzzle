@@ -182,6 +182,23 @@ const NoMatch = (props) => {
   )
 }
 
+class Logout extends React.Component {
+  componentDidMount() {
+    Auth.logout()
+  }
+  render() {
+    let s = {
+      margin: '20%',
+    }
+    return (
+      <div className="container" style={s}>
+        <center><h3>You are now logged out!</h3><Link to="/login" className="btn btn-primary">Log In</Link></center>
+      </div>
+    )
+  }
+}
+
+
 var Login = React.createClass({
   mixins: [ History ],
 
@@ -219,49 +236,33 @@ var Login = React.createClass({
   render() {
     return (
       <div style={{margin: '10% 20%'}}>
-      <img className="recon-nav-logo" src="static/recon-logo-85x23.png" /><br /><br />
-      <form onSubmit={this.handleSubmit}>
-      <div className="form-group row">
-      <div className="col-md-6">
-      <label>
-      <input ref="email" name="email" type="email" placeholder="Email" className="form-control" />
-      </label>
+        <img className="recon-nav-logo" src="static/recon-logo-85x23.png" /><br /><br />
+        <form onSubmit={this.handleSubmit}>
+          <div className="form-group row">
+            <div className="col-md-6">
+              <label>
+                <input ref="email" name="email" type="email" placeholder="Email" className="form-control" />
+              </label>
+            </div>
+          </div>
+          <div className="form-group row">
+            <div className="col-md-6">
+              <label>
+                <input ref="pass" name="password" type="password" placeholder="Password" className="form-control" />
+              </label>
+            </div>
+          </div>
+          <button type="submit" className="btn btn-primary">Log In</button>
+          {
+           this.state.error && (
+             <p>Bad login information</p>
+           )
+          }
+        </form>
       </div>
-      </div>
-      <div className="form-group row">
-      <div className="col-md-6">
-      <label>
-      <input ref="pass" name="password" type="password" placeholder="Password" className="form-control" />
-      </label>
-      </div>
-      </div>
-      <button type="submit" className="btn btn-primary">Log In</button>
-      {
-        this.state.error && (
-          <p>Bad login information</p>
-        )
-      }
-      </form>
-        </div>
     )
   },
 });
-
-class Logout extends React.Component {
-  componentDidMount() {
-    Auth.logout()
-  }
-  render() {
-    let s = {
-      margin: '20%',
-    }
-    return (
-      <div className="container" style={s}>
-        <center><h3>You are now logged out!</h3><Link to="/login" className="btn btn-primary">Log In</Link></center>
-      </div>
-    )
-  }
-}
 
 function requireAuth(nextState, replaceState) {
   if (!Auth.loggedIn())
