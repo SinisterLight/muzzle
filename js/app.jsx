@@ -24,24 +24,26 @@ class App extends React.Component {
     Auth.login()
   }
   render() {
+    let c;
     if (this.state.loggedIn) {
-      return (
+      c = (
         <div>
           <Navbar />
           <div className="container">
             {Auth.getToken()}
             <Link to="/logout">Log out</Link>
-	    <div>
-	      {this.props.children || <Home/>}
-	    </div>
+            <div>{this.props.children || <Home/>}</div>
           </div>
         </div>
       )
     } else {
-      return (
-        <Link to="/login">Sign in</Link>
-      )
+      c = <Link to="/login">Sign in</Link>
     }
+    return (
+      <div>
+        {c}
+      </div>
+    )
   }
 }
 
@@ -203,7 +205,11 @@ var Login = React.createClass({
       var { location } = this.props
 
       if (location.state && location.state.nextPathname) {
-        this.history.replaceState(null, location.state.nextPathname)
+        if (location.state.nextPathname === '/') {
+          this.history.replaceState(null, '/agents')
+        } else {
+          this.history.replaceState(null, location.state.nextPathname)
+        }
       } else {
         this.history.replaceState(null, '/agents')
       }
@@ -212,14 +218,31 @@ var Login = React.createClass({
 
   render() {
     return (
+      <div style={{margin: '10% 20%'}}>
+      <img className="recon-nav-logo" src="static/recon-logo-85x23.png" /><br /><br />
       <form onSubmit={this.handleSubmit}>
-        <label><input ref="email" type="email" placeholder="email" defaultValue="joe@example.com" /></label>
-        <label><input ref="pass" type="password" placeholder="password" /></label> (hint: password1)<br />
-        <button type="submit">login</button>
-        {this.state.error && (
-           <p>Bad login information</p>
-         )}
+      <div className="form-group row">
+      <div className="col-md-6">
+      <label>
+      <input ref="email" name="email" type="email" placeholder="Email" className="form-control" />
+      </label>
+      </div>
+      </div>
+      <div className="form-group row">
+      <div className="col-md-6">
+      <label>
+      <input ref="pass" name="password" type="password" placeholder="Password" className="form-control" />
+      </label>
+      </div>
+      </div>
+      <button type="submit" className="btn btn-primary">Log In</button>
+      {
+        this.state.error && (
+          <p>Bad login information</p>
+        )
+      }
       </form>
+        </div>
     )
   },
 });
@@ -229,7 +252,14 @@ class Logout extends React.Component {
     Auth.logout()
   }
   render() {
-    return <p>You are now logged out</p>
+    let s = {
+      margin: '20%',
+    }
+    return (
+      <div className="container" style={s}>
+        <center><h3>You are now logged out!</h3><Link to="/login" className="btn btn-primary">Log In</Link></center>
+      </div>
+    )
   }
 }
 
