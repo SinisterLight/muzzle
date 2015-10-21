@@ -235,30 +235,38 @@ var Login = React.createClass({
 
   render() {
     return (
-      <div style={{margin: '10% 20%'}}>
-        <img className="recon-nav-logo" src="static/recon-logo-85x23.png" /><br /><br />
-        <form onSubmit={this.handleSubmit}>
-          <div className="form-group row">
-            <div className="col-md-6">
-              <label>
-                <input ref="email" name="email" type="email" placeholder="Email" className="form-control" />
-              </label>
-            </div>
+      <div className="container-fluid">
+        <div className="row" style={{marginTop: '5%'}}></div>
+        <div className="row">
+          <div className="col-md-4">
           </div>
-          <div className="form-group row">
-            <div className="col-md-6">
-              <label>
+          <div className="col-md-4"  style={{backgroundColor: '#f5f5f5', borderRadius: '0.3rem'}}>
+            <br />
+            <img className="recon-nav-logo" src="static/recon-logo-85x23.png" />
+            <form onSubmit={this.handleSubmit}>
+              <fieldset className="form-group" style={{marginBottom: 0}}>
+                  <label></label>
+                  <input ref="email" name="email" type="email" placeholder="Email" className="form-control" autoFocus="true"/>
+              </fieldset>
+              <fieldset className="form-group">
+                <label></label>
                 <input ref="pass" name="password" type="password" placeholder="Password" className="form-control" />
-              </label>
-            </div>
+              </fieldset>
+              <button type="submit" className="btn btn-primary">Log In</button>
+              {
+               this.state.error && (
+                 <p>Bad login information</p>
+               )
+              }
+            </form>
+            <br />
+            <p>
+              Don't have an account? <Link to="/register">Register here!</Link>
+            </p>
           </div>
-          <button type="submit" className="btn btn-primary">Log In</button>
-          {
-           this.state.error && (
-             <p>Bad login information</p>
-           )
-          }
-        </form>
+          <div className="col-md-4">
+          </div>
+        </div>
       </div>
     )
   },
