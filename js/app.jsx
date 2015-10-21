@@ -27,13 +27,13 @@ class App extends React.Component {
   }
   render() {
     let c;
+    // let authToken = Auth.getToken();
+    let userEmail = Auth.getEmail();
     if (this.state.loggedIn) {
       c = (
         <div>
-          <Navbar />
+          <Navbar email={userEmail}/>
           <div className="container">
-            {Auth.getToken()}
-            <Link to="/logout">Log out</Link>
             <div>{this.props.children || <Home/>}</div>
           </div>
         </div>
@@ -87,7 +87,7 @@ const Navbar = (props) => {
             </li>
             <div className="pull-right dropdown">
 	      <button className="btn btn-primary-outline dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-	        Hari haran
+                {props.email}
 	      </button>
 	      <div className="dropdown-menu" aria-labelledby="dropdownMenu1">
 	        <Link className="dropdown-item" to="/profile">Profile</Link>
