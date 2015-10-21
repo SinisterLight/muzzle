@@ -272,6 +272,12 @@ var Login = React.createClass({
   },
 });
 
+const Register = (props) => {
+  return (
+    <p> Registration page </p>
+  )
+}
+
 function requireAuth(nextState, replaceState) {
   if (!Auth.loggedIn())
     replaceState({ nextPathname: nextState.location.pathname }, '/login')
@@ -283,10 +289,11 @@ ReactDOM.render(
   <Router history={history}>
     <Route path="login" component={Login} />
     <Route path="logout" component={Logout} />
+    <Route path="register" component={Register} />
+    <Route path="about" component={About} />
     <Route path="/" component={App} onEnter={requireAuth}>
       <Route path="agents" component={Agents} />
       <Route path="agents/:uid" component={Agent}/>
-      <Route path="about" component={About} />
       <Route path="*" component={NoMatch}/>
     </Route>
   </Router>,
