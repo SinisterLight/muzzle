@@ -11,6 +11,7 @@ export const Auth = {
     pretendRequest(email, pass, (res) => {
       if (res.authenticated) {
         localStorage.token = res.token
+        localStorage.email = email
         if (cb) {
           cb(true);
           this.onChange(true);
@@ -26,6 +27,10 @@ export const Auth = {
 
   getToken() {
     return localStorage.token
+  },
+
+  getEmail() {
+    return localStorage.email
   },
 
   logout(cb) {
