@@ -1,6 +1,7 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
 import { Link } from 'react-router'
+import { APIserver } from './../app'
 
 export class FilterableAgentTable extends React.Component {
   constructor(props) {
@@ -154,7 +155,7 @@ class SummarizedSystemData extends React.Component {
 
   loadDataFromServer() {
     $.ajax({
-      url: 'http://192.168.1.119:3000/api/events?uid='+this.props.uid+'&policy_name=default_system_data',
+      url: APIserver+'/api/events?uid='+this.props.uid+'&policy_name=default_system_data',
       dataType: 'json',
       cache: false,
       success: function(data) {

@@ -6,6 +6,8 @@ import '../css/muzzle.css' // Try loading common css in html itself
 import { FilterableAgentTable } from './components/FilterableAgentTable'
 import { Auth } from './auth'
 
+const APIserver = 'http://192.168.1.119:3000'
+
 class App extends React.Component {
   constructor(props) {
     super(props);
@@ -99,17 +101,13 @@ const Navbar = (props) => {
 }
 
 const About = (props) => {
-  var styles = {
-    errorBox: {
-      marginLeft: '25%',
-      marginRight: '25%',
-      position: 'absolute',
-      textAlign: 'center',
-      top: '40%',
-    },
+  var s = {
+    margin: '0 auto',
+    padding: '4rem',
+    position: 'absolute',
   }
   return (
-    <div style={styles.errorBox}>
+    <div style={s}>
       <h2>About</h2>
       <p>Recon is the brainchild of the people at <a href="http://codeignition.co">CodeIgnition</a>. Recon is completely opensource and aims to make monitoring simple and intuitive. If you have any issues / suggestions, please open an issue at <a href="https://github.com/codeignition/recon/issues/new">our Github repository.</a></p>
     </div>
@@ -118,7 +116,7 @@ const About = (props) => {
 
 class Agents extends React.Component {
   render() {
-    return <AgentTableWrapper source="http://192.168.1.119:3000/api/agents" pollInterval={2000}/>
+    return <AgentTableWrapper source={APIserver+'/api/agents'} pollInterval={2000}/>
   }
 }
 
@@ -245,8 +243,8 @@ var Login = React.createClass({
             <img className="recon-nav-logo" src="static/recon-logo-85x23.png" />
             <form onSubmit={this.handleSubmit}>
               <fieldset className="form-group" style={{marginBottom: 0}}>
-                  <label></label>
-                  <input ref="email" name="email" type="email" placeholder="Email" className="form-control" autoFocus="true"/>
+                <label></label>
+                <input ref="email" name="email" type="email" placeholder="Email" className="form-control" autoFocus="true"/>
               </fieldset>
               <fieldset className="form-group">
                 <label></label>
