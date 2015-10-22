@@ -82,7 +82,7 @@ class AgentSearchBar extends React.Component {
 
 class AgentGrid extends React.Component {
   render() {
-    var rows = [];
+    let rows = [];
     this.props.agents.forEach(
       (agent) => {
         if ((agent.host_name.toLowerCase().indexOf(this.props.filterText.toLowerCase()) === -1) || ((agent.status == 'online') && this.props.offlineOnly)) {
@@ -145,7 +145,6 @@ class SummarizedSystemData extends React.Component {
       data: [],
     }
   }
-
   loadDataFromServer() {
     $.ajax({
       url: APIserver+'/api/events?uid='+this.props.uid+'&policy_name=default_system_data',
@@ -179,10 +178,10 @@ const MemoryData = (props) => {
   if (props.status === 'offline' ||props.data === null || props.data.length === 0) {
     return <div>Active Memory: unknown</div>
   } else {
-    var m = props.data[props.data.length-1];
-    var activeMemory = m.Data.memory.active.substring(0, m.Data.memory.active.length-3);
-    var totalMemory = m.Data.memory.total.substring(0, m.Data.memory.total.length-3);
-    var activeMemPercentage = activeMemory/totalMemory * 100;
+    let m = props.data[props.data.length-1];
+    let activeMemory = m.Data.memory.active.substring(0, m.Data.memory.active.length-3);
+    let totalMemory = m.Data.memory.total.substring(0, m.Data.memory.total.length-3);
+    let activeMemPercentage = activeMemory/totalMemory * 100;
     return <div>Active Memory: {activeMemPercentage.toFixed(2)} %</div>
   }
 }
