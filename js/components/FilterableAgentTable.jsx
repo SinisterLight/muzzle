@@ -101,41 +101,34 @@ class AgentGrid extends React.Component {
 
 class AgentBox extends React.Component {
   render() {
-    var agentLink = '/agents/'+this.props.agent.uid;
-    var styles = {
+    let agentLink = '/agents/'+this.props.agent.uid;
+    const baseStyle = {
+      padding: '0.4rem',
+      borderRadius: '0.2rem',
+      margin: '0.2rem',
+      height: '8rem',
+    }
+    const styles = {
       online: {
-        padding: '0.4rem',
+        ...baseStyle,
         color:'#004400',
         backgroundColor:'#88cc88',
-        borderRadius: '0.2rem',
-        margin: '0.2rem',
-        height: '8rem',
       },
       offline: {
-        padding: '0.4rem',
+        ...baseStyle,
         color:'#550000',
         backgroundColor:'#ffaaaa',
-        borderRadius: '0.2rem',
-        margin: '0.2rem',
-        height: '8rem',
       },
       hostname: {
-        offline: {
-          fontWeight: '700',
-          width:'100%',
-          borderRadius:'0.2rem',
-        },
-        online: {
-          fontWeight: '700',
-          width:'100%',
-          borderRadius:'0.2rem',
-        },
+        fontWeight: '700',
+        width:'100%',
+        borderRadius:'0.2rem',
       },
     };
     return(
       <Link to={agentLink} style={{textDecoration:'none'}}>
       <div className="col-md-3" style={styles[this.props.agent.status]}>
-        <div style={styles.hostname[this.props.agent.status]}>{this.props.agent.host_name}</div>
+        <div style={styles.hostname}>{this.props.agent.host_name}</div>
         <div>{this.props.agent.status}</div>
         <SummarizedSystemData uid={this.props.agent.uid} status={this.props.agent.status} pollInterval={2000}/>
       </div>
