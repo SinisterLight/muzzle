@@ -50,17 +50,15 @@ class App extends React.Component {
 }
 
 const Home = (props) => {
-  var styles = {
-    errorBox: {
-      marginLeft: '25%',
-      marginRight: '25%',
-      position: 'absolute',
-      textAlign: 'center',
-      top: '40%',
-    },
+  const s = {
+    marginLeft: '25%',
+    marginRight: '25%',
+    position: 'absolute',
+    textAlign: 'center',
+    top: '40%',
   }
   return (
-    <div style={styles.errorBox}>
+    <div style={s}>
       <h2>Welcome to Recon</h2>
       <p>
 	Defaut dashboard?
@@ -72,36 +70,28 @@ const Home = (props) => {
 const Navbar = (props) => {
   return (
     <nav className="navbar navbar-default navbar-static-top">
-      <Link to="/" className="navbar-brand">
-      <img className="recon-nav-logo" src="static/recon-logo-85x23.png" />
-            </Link>
-            <ul className="nav nav-pills">
-              <li className="nav-item">
-	        <Link to="/agents" activeClassName="active" className="nav-link">Agents</Link>
-            </li>
-            <li className="nav-item">
-              <Link to="/dashboards" activeClassName="active" className="nav-link">Dashboards</Link>
-            </li>
-            <li className="nav-item">
-              <Link to="/about" activeClassName="active" className="nav-link">About</Link>
-            </li>
-            <div className="pull-right dropdown">
-	      <button className="btn btn-primary-outline dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                {props.email}
-	      </button>
-	      <div className="dropdown-menu" aria-labelledby="dropdownMenu1">
-	        <Link className="dropdown-item" to="/profile">Profile</Link>
-	        <Link className="dropdown-item" to="/settings">Settings</Link>
-	        <Link className="dropdown-item" to="/logout">Log Out</Link>
-	      </div>
-            </div>
-            </ul>
+      <Link to="/" className="navbar-brand"><img className="recon-nav-logo" src="static/recon-logo-85x23.png" /></Link>
+      <ul className="nav nav-pills">
+        <li className="nav-item"><Link to="/agents" activeClassName="active" className="nav-link">Agents</Link></li>
+        <li className="nav-item"><Link to="/dashboards" activeClassName="active" className="nav-link">Dashboards</Link></li>
+        <li className="nav-item"><Link to="/about" activeClassName="active" className="nav-link">About</Link></li>
+      </ul>
+      <div className="pull-right dropdown">
+	<button className="btn btn-primary-outline dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          {props.email}
+	</button>
+	<div className="dropdown-menu" aria-labelledby="dropdownMenu1">
+	  <Link className="dropdown-item" to="/profile">Profile</Link>
+	  <Link className="dropdown-item" to="/settings">Settings</Link>
+	  <Link className="dropdown-item" to="/logout">Log Out</Link>
+	</div>
+      </div>
     </nav>
   )
 }
 
 const About = (props) => {
-  var s = {
+  const s = {
     margin: '0 auto',
     padding: '4rem',
     position: 'absolute',
@@ -160,17 +150,15 @@ const Agent = (props) => {
 }
 
 const NoMatch = (props) => {
-  var styles = {
-    errorBox: {
-      marginLeft: '25%',
-      marginRight: '25%',
-      position: 'absolute',
-      textAlign: 'center',
-      top: '40%',
-    },
+  const s = {
+    marginLeft: '25%',
+    marginRight: '25%',
+    position: 'absolute',
+    textAlign: 'center',
+    top: '40%',
   }
   return (
-    <div style={styles.errorBox}>
+    <div style={s}>
       <h2>Sorry, this page isn't available.</h2>
       <p>
         The link you followed may be broken, or the page may have been removed.
@@ -209,15 +197,15 @@ var Login = React.createClass({
   handleSubmit(event) {
     event.preventDefault();
 
-    var email = ReactDOM.findDOMNode(this.refs.email).value
-    var pass =  ReactDOM.findDOMNode(this.refs.pass).value
+    let email = ReactDOM.findDOMNode(this.refs.email).value
+    let pass =  ReactDOM.findDOMNode(this.refs.pass).value
 
     Auth.login(email, pass, (loggedIn) => {
       if (!loggedIn) {
         return this.setState({ error: true })
       }
 
-      var { location } = this.props
+      let { location } = this.props
 
       if (location.state && location.state.nextPathname) {
         if (location.state.nextPathname === '/') {
@@ -277,8 +265,9 @@ const Register = (props) => {
 }
 
 function requireAuth(nextState, replaceState) {
-  if (!Auth.loggedIn())
+  if (!Auth.loggedIn()) {
     replaceState({ nextPathname: nextState.location.pathname }, '/login')
+  }
 }
 
 const history = createHashHistory();
