@@ -6,7 +6,7 @@ import '../css/muzzle.css' // Try loading common css in html itself
 import { FilterableAgentTable } from './components/FilterableAgentTable'
 import { Auth } from './auth'
 
-const APIserver = 'http://192.168.1.119:3000'
+export const APIserver = 'http://192.168.1.119:3000'
 
 class App extends React.Component {
   constructor(props) {
