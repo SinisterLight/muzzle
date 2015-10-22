@@ -83,7 +83,7 @@ const AgentGrid = (props) => {
   let rows = [];
   props.agents.forEach(
     (agent) => {
-      if ((agent.host_name.toLowerCase().indexOf(this.props.filterText.toLowerCase()) === -1) || ((agent.status == 'online') && this.props.offlineOnly)) {
+      if ((agent.host_name.toLowerCase().indexOf(props.filterText.toLowerCase()) === -1) || ((agent.status == 'online') && props.offlineOnly)) {
         return
       }
       rows.push(<AgentBox agent={agent} key={agent.uid} />)
