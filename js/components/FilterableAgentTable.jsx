@@ -52,7 +52,6 @@ class AgentSearchBar extends React.Component {
   render() {
     return (
       <form className="form-inline">
-
         <div className="form-group" style={{marginRight: '1rem'}}>
           <input
                   style={{fontWeight: 500}}
@@ -80,23 +79,21 @@ class AgentSearchBar extends React.Component {
   }
 }
 
-class AgentGrid extends React.Component {
-  render() {
-    let rows = [];
-    this.props.agents.forEach(
-      (agent) => {
-        if ((agent.host_name.toLowerCase().indexOf(this.props.filterText.toLowerCase()) === -1) || ((agent.status == 'online') && this.props.offlineOnly)) {
-          return
-        }
-        rows.push(<AgentBox agent={agent} key={agent.uid} />)
+const AgentGrid = (props) => {
+  let rows = [];
+  props.agents.forEach(
+    (agent) => {
+      if ((agent.host_name.toLowerCase().indexOf(this.props.filterText.toLowerCase()) === -1) || ((agent.status == 'online') && this.props.offlineOnly)) {
+        return
       }
-    );
-    return (
-      <div>
-        {rows}
-      </div>
-    )
-  }
+      rows.push(<AgentBox agent={agent} key={agent.uid} />)
+    }
+  );
+  return (
+    <div>
+      {rows}
+    </div>
+  )
 }
 
 class AgentBox extends React.Component {
@@ -110,12 +107,12 @@ class AgentBox extends React.Component {
     }
     const styles = {
       online: {
-          ...baseStyle,
+        ...baseStyle,
         color:'#004400',
         backgroundColor:'#88cc88',
       },
       offline: {
-          ...baseStyle,
+        ...baseStyle,
         color:'#550000',
         backgroundColor:'#ffaaaa',
       },
