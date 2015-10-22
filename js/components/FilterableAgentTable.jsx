@@ -93,7 +93,7 @@ class AgentGrid extends React.Component {
     );
     return (
       <div>
-      {rows}
+        {rows}
       </div>
     )
   }
@@ -110,12 +110,12 @@ class AgentBox extends React.Component {
     }
     const styles = {
       online: {
-        ...baseStyle,
+          ...baseStyle,
         color:'#004400',
         backgroundColor:'#88cc88',
       },
       offline: {
-        ...baseStyle,
+          ...baseStyle,
         color:'#550000',
         backgroundColor:'#ffaaaa',
       },
@@ -176,12 +176,17 @@ class SummarizedSystemData extends React.Component {
 
 const MemoryData = (props) => {
   if (props.status === 'offline' ||props.data === null || props.data.length === 0) {
-    return <div>Active Memory: unknown</div>
+    return <div>Memory usage: unknown</div>
   } else {
-    let m = props.data[props.data.length-1];
-    let activeMemory = m.Data.memory.active.substring(0, m.Data.memory.active.length-3);
-    let totalMemory = m.Data.memory.total.substring(0, m.Data.memory.total.length-3);
-    let activeMemPercentage = activeMemory/totalMemory * 100;
-    return <div>Active Memory: {activeMemPercentage.toFixed(2)} %</div>
+    console.log(props.data);
+    let m = props.data[props.data.length-1].Data.Memory;
+    // We are not counting cached and buffer memory in used memory.
+    // htop does the same thing.
+    // check http://askubuntu.com/a/369589 and http://www.linuxatemyram.com/
+    // TODO: Should we move this logic to the API?
+    let usedMemory = m.Used-m.Cached-m.Buffers;
+    let totalMemory = m.Total;
+    let activeMemPercentage = usedMemory/totalMemory * 100;
+    return <div>Memory usage: <b>{activeMemPercentage.toFixed(2)} %</b></div>
   }
 }
