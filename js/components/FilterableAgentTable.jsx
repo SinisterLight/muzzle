@@ -103,7 +103,6 @@ class AgentBox extends React.Component {
       padding: '0.4rem',
       borderRadius: '0.2rem',
       margin: '0.2rem',
-      height: '8rem',
     }
     const styles = {
       online: {
@@ -113,8 +112,8 @@ class AgentBox extends React.Component {
       },
       offline: {
         ...baseStyle,
-        color:'#550000',
-        backgroundColor:'#ffaaaa',
+        color:'#333',
+        backgroundColor:'#ddd',
       },
       hostname: {
         fontWeight: '700',
@@ -126,7 +125,6 @@ class AgentBox extends React.Component {
       <Link to={agentLink} style={{textDecoration:'none'}}>
       <div className="col-md-3" style={styles[this.props.agent.status]}>
         <div style={styles.hostname}>{this.props.agent.host_name}</div>
-        <div>{this.props.agent.status}</div>
         <SummarizedSystemData uid={this.props.agent.uid} status={this.props.agent.status} pollInterval={2000}/>
       </div>
       </Link>
@@ -166,6 +164,7 @@ class SummarizedSystemData extends React.Component {
     return (
       <div>
         <MemoryData status={this.props.status} data={this.state.data}/>
+        <CPUData status={this.props.status} data={this.state.data}/>
       </div>
     )
   }
@@ -173,7 +172,7 @@ class SummarizedSystemData extends React.Component {
 
 const MemoryData = (props) => {
   if (props.status === 'offline' ||props.data === null || props.data.length === 0) {
-    return <div>Memory usage: unknown</div>
+    return <div>Memory used <b className="pull-right" title="Not Available">NA</b></div>
   } else {
     console.log(props.data);
     let m = props.data[props.data.length-1].Data.Memory;
@@ -184,6 +183,15 @@ const MemoryData = (props) => {
     let usedMemory = m.Used-m.Cached-m.Buffers;
     let totalMemory = m.Total;
     let activeMemPercentage = usedMemory/totalMemory * 100;
-    return <div>Memory usage: <b>{activeMemPercentage.toFixed(2)} %</b></div>
+    return <div>Memory used <b className="pull-right">{activeMemPercentage.toFixed(2)} %</b></div>
+  }
+}
+
+const CPUData = (props) => {
+  if (props.status === 'offline' ||props.data === null || props.data.length === 0) {
+    return <div>Userspace CPU <b className="pull-right" title="Not Available">NA</b></div>
+  } else {
+    let c = props.data[props.data.length-1].Data.CPU;
+    return <div>Userspace CPU <b className="pull-right">{c.Userspace.toFixed(2)} %</b></div>
   }
 }
