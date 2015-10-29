@@ -50,7 +50,7 @@ export const Auth = {
 
 function pretendRequest(email, pass, cb) {
   setTimeout(() => {
-    if (email === 'joe@example.com' && pass === 'password1') {
+    if (email === 'tony@starkindustries.com' && pass === 'ironman') {
       cb({
         authenticated: true,
         token: Math.random().toString(36).substring(7),
