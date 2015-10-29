@@ -113,7 +113,7 @@ class AgentBox extends React.Component {
       offline: {
         ...baseStyle,
         color:'#333',
-        backgroundColor:'#ddd',
+        backgroundColor:'#f5f5f5',
       },
       hostname: {
         fontWeight: '700',
@@ -165,6 +165,7 @@ class SummarizedSystemData extends React.Component {
       <div>
         <MemoryData status={this.props.status} data={this.state.data}/>
         <CPUData status={this.props.status} data={this.state.data}/>
+        <DiskData status={this.props.status} data={this.state.data}/>
       </div>
     )
   }
@@ -174,16 +175,15 @@ const MemoryData = (props) => {
   if (props.status === 'offline' ||props.data === null || props.data.length === 0) {
     return <div>Memory used <b className="pull-right" title="Not Available">NA</b></div>
   } else {
-    console.log(props.data);
-    let m = props.data[props.data.length-1].Data.Memory;
+    let m = props.data[props.data.length-1].Data.system.memory;
     // We are not counting cached and buffer memory in used memory.
     // htop does the same thing.
     // check http://askubuntu.com/a/369589 and http://www.linuxatemyram.com/
     // TODO: Should we move this logic to the API?
-    let usedMemory = m.Used-m.Cached-m.Buffers;
-    let totalMemory = m.Total;
-    let activeMemPercentage = usedMemory/totalMemory * 100;
-    return <div>Memory used <b className="pull-right">{activeMemPercentage.toFixed(2)} %</b></div>
+    let used = m.used-m.cached-m.buffers;
+    let total = m.total;
+    let p = used/total * 100;
+    return <div>Memory used <b className="pull-right">{p.toFixed(2)} %</b></div>
   }
 }
 
@@ -191,7 +191,17 @@ const CPUData = (props) => {
   if (props.status === 'offline' ||props.data === null || props.data.length === 0) {
     return <div>Userspace CPU <b className="pull-right" title="Not Available">NA</b></div>
   } else {
-    let c = props.data[props.data.length-1].Data.CPU;
-    return <div>Userspace CPU <b className="pull-right">{c.Userspace.toFixed(2)} %</b></div>
+    let c = props.data[props.data.length-1].Data.system.cpu;
+    return <div>Userspace CPU <b className="pull-right">{c.userspace.toFixed(2)} %</b></div>
+  }
+}
+
+const DiskData = (props) => {
+  if (props.status === 'offline' ||props.data === null || props.data.length === 0) {
+    return <div>Disk usage <b className="pull-right" title="Not Available">NA</b></div>
+  } else {
+    let c = props.data[props.data.length-1].Data.system.disk;
+    let sda1p = c['/dev/sda1'].percentage_used
+    return <div>{'/dev/sda1'} <b className="pull-right">{sda1p.slice(0,sda1p.length-1)} %</b></div>
   }
 }
