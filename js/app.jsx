@@ -100,6 +100,7 @@ const About = (props) => {
     <div style={s}>
       <h2>About</h2>
       <p>Recon is the brainchild of the people at <a href="http://codeignition.co">CodeIgnition</a>. Recon is completely opensource and aims to make monitoring simple and intuitive. If you have any issues / suggestions, please open an issue at <a href="https://github.com/codeignition/recon/issues/new">our Github repository.</a></p>
+      <p><Link to="/" className="btn btn-primary">Go back to Home.</Link></p>
     </div>
   )
 }
