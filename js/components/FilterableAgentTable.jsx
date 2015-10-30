@@ -171,7 +171,7 @@ class SummarizedSystemData extends React.Component {
 
 const MemoryData = (props) => {
   if (props.status === 'offline' ||props.data === null || props.data.length === 0) {
-    return <div>Memory used <b className="pull-right" title="Not Available">NA</b></div>
+    return <div><span title="Memory used">Memory</span> <b className="pull-right" title="Not Available">NA</b></div>
   } else {
     let m = props.data[props.data.length-1].Data.system.memory;
     // We are not counting cached and buffer memory in used memory.
@@ -181,22 +181,28 @@ const MemoryData = (props) => {
     let used = m.used-m.cached-m.buffers;
     let total = m.total;
     let p = used/total * 100;
-    return <div>Memory used <b className="pull-right">{p.toFixed(2)} %</b></div>
+    return <div><span title="Memory used">Memory</span> <b className="pull-right">{p.toFixed(2)} %</b></div>
   }
 }
 
 const CPUData = (props) => {
   if (props.status === 'offline' ||props.data === null || props.data.length === 0) {
-    return <div>Userspace CPU <b className="pull-right" title="Not Available">NA</b></div>
+    return <div><span title="Userspace CPU">CPU</span> <b className="pull-right" title="Not Available">NA</b></div>
   } else {
     let c = props.data[props.data.length-1].Data.system.cpu;
-    return <div>Userspace CPU <b className="pull-right">{c.userspace.toFixed(2)} %</b></div>
+    return <div><span title="Userspace CPU">CPU</span> <b className="pull-right">{c.userspace.toFixed(2)} %</b></div>
   }
 }
 
 const DiskData = (props) => {
   if (props.status === 'offline' ||props.data === null || props.data.length === 0) {
-    return <div><span>Disk usage <b className="pull-right" title="Not Available">NA</b></span></div>
+    return (
+      <div>
+        <span>
+          <span title="Disk usage">Disk</span> <b className="pull-right" title="Not Available">NA</b>
+        </span>
+      </div>
+    )
   } else {
     let d = props.data[props.data.length-1].Data.system.disk;
     var rows = [];
