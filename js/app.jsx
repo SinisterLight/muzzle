@@ -2,9 +2,10 @@ import React from 'react'
 import ReactDOM from 'react-dom'
 import { Router, Link, Route, History } from 'react-router'
 import { createHashHistory } from 'history'
-import '../css/muzzle.css' // Try loading common css in html itself
 import { FilterableAgentTable } from './components/FilterableAgentTable'
 import { Auth } from './auth'
+
+import '../css/muzzle.css'
 
 export const APIserver = 'http://192.168.1.119:3000'
 
