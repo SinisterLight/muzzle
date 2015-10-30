@@ -27,7 +27,6 @@ export class FilterableAgentTable extends React.Component {
                 offlineOnly={this.state.offlineOnly}
                 onUserInput={this.handleUserInput.bind(this)}
         />
-        <br />
         <AgentGrid
                 agents={this.props.agents}
                 filterText={this.state.filterText}
@@ -89,7 +88,7 @@ const AgentGrid = (props) => {
     }
   );
   return (
-    <div>
+    <div style={{marginTop:'0.6rem'}}>
       {rows}
     </div>
   )
@@ -197,10 +196,29 @@ const CPUData = (props) => {
 
 const DiskData = (props) => {
   if (props.status === 'offline' ||props.data === null || props.data.length === 0) {
-    return <div>Disk usage <b className="pull-right" title="Not Available">NA</b></div>
+    return <div><span>Disk usage <b className="pull-right" title="Not Available">NA</b></span></div>
   } else {
-    let c = props.data[props.data.length-1].Data.system.disk;
-    let sda1p = c['/dev/sda1'].percentage_used
-    return <div>{'/dev/sda1'} <b className="pull-right">{sda1p.slice(0,sda1p.length-1)} %</b></div>
+    let d = props.data[props.data.length-1].Data.system.disk;
+    var rows = [];
+    for (let k in d) {
+      if (!d.hasOwnProperty(k)) {
+        continue;
+      }
+      rows.push(<DiskPartitionData name={k} data={d[k]} key={k}/>)
+    }
+    return (
+      <div>
+        {rows}
+      </div>
+    )
   }
+}
+
+const DiskPartitionData = (props) => {
+  let p = props.data.percentage_used
+  return (
+    <div>
+      {props.name} <b className="pull-right">{p.slice(0,p.length-1)} %</b>
+    </div>
+  )
 }
