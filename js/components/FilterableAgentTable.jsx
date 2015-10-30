@@ -112,7 +112,7 @@ class AgentBox extends React.Component {
       },
       offline: {
         ...baseStyle,
-        color:'#333',
+        color:'#626466',
         backgroundColor:'#f5f5f5',
       },
       hostname: {
