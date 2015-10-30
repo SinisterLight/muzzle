@@ -54,7 +54,6 @@ class AgentSearchBar extends React.Component {
       <form className="form-inline">
         <div className="form-group" style={{marginRight: '1rem'}}>
           <input
-                  style={{fontWeight: 500}}
                   type="text"
                   className="form-control"
                   ref="filterTextInput"
