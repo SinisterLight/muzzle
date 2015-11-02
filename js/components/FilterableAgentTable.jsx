@@ -161,7 +161,7 @@ class SummarizedSystemData extends React.Component {
   render() {
     return (
       <div>
-        <MemoryData status={this.props.status} data={this.state.data}/>
+        <RAMData status={this.props.status} data={this.state.data}/>
         <CPUData status={this.props.status} data={this.state.data}/>
         <DiskData status={this.props.status} data={this.state.data}/>
       </div>
@@ -169,9 +169,9 @@ class SummarizedSystemData extends React.Component {
   }
 }
 
-const MemoryData = (props) => {
+const RAMData = (props) => {
   if (props.status === 'offline' ||props.data === null || props.data.length === 0) {
-    return <div><span title="Memory used">Memory</span> <b className="pull-right" title="Not Available">NA</b></div>
+    return <div><span title="RAM used">RAM</span> <b className="pull-right" title="Not Available">NA</b></div>
   } else {
     let m = props.data[props.data.length-1].Data.system.memory;
     // We are not counting cached and buffer memory in used memory.
@@ -181,7 +181,7 @@ const MemoryData = (props) => {
     let used = m.used-m.cached-m.buffers;
     let total = m.total;
     let p = used/total * 100;
-    return <div><span title="Memory used">Memory</span> <b className="pull-right">{p.toFixed(2)} %</b></div>
+    return <div><span title="RAM used">RAM</span> <b className="pull-right">{p.toFixed(2)} %</b></div>
   }
 }
 
