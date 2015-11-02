@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom'
 import { Router, Link, Route, History } from 'react-router'
 import { createHashHistory } from 'history'
 import { FilterableAgentTable } from './components/FilterableAgentTable'
+import { Agent } from './components/Agent'
 import { Auth } from './auth'
 
 import '../css/muzzle.css'
@@ -143,12 +144,6 @@ class AgentTableWrapper extends React.Component {
   render() {
     return <FilterableAgentTable agents={this.state.data}/>
   }
-}
-
-const Agent = (props) => {
-  return (
-    <p>Agent {props.params.uid}</p>
-  )
 }
 
 const NoMatch = (props) => {
