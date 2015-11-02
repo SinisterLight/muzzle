@@ -56,13 +56,13 @@ const Home = (props) => {
     marginRight: '25%',
     position: 'absolute',
     textAlign: 'center',
-    top: '40%',
+    top: '30%',
   }
   return (
     <div style={s}>
       <h2>Welcome to Recon</h2>
       <p>
-	Defaut dashboard?
+	Defaut dashboard
       </p>
     </div>
   )
@@ -157,7 +157,7 @@ const NoMatch = (props) => {
     marginRight: '25%',
     position: 'absolute',
     textAlign: 'center',
-    top: '40%',
+    top: '30%',
   }
   return (
     <div style={s}>
