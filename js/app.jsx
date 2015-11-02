@@ -181,7 +181,6 @@ class Logout extends React.Component {
   }
 }
 
-
 var Login = React.createClass({
   mixins: [ History ],
 
@@ -261,7 +260,7 @@ const Register = (props) => {
   )
 }
 
-function requireAuth(nextState, replaceState) {
+const requireAuth = (nextState, replaceState) => {
   if (!Auth.loggedIn()) {
     replaceState({ nextPathname: nextState.location.pathname }, '/login')
   }
