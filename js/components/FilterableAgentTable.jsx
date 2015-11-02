@@ -38,8 +38,8 @@ export class FilterableAgentTable extends React.Component {
 }
 
 class AgentSearchBar extends React.Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     this.handleChange = this.handleChange.bind(this);
   }
   handleChange() {
