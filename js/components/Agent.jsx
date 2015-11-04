@@ -123,9 +123,11 @@ class CPUChart extends React.Component {
   _renderChart(d) {
     let x = ['x'];
     let cpu = ['cpu'];
-    for (let i = 0; i < d.length; i++) {
-      x[i+1] = new Date(d[i].Time);
-      cpu[i+1] = d[i].Data.system.cpu.userspace;
+    if (d !== null) {
+      for (let i = 0; i < d.length; i++) {
+        x[i+1] = new Date(d[i].Time);
+        cpu[i+1] = d[i].Data.system.cpu.userspace;
+      }
     }
     this.chart = c3.generate({
       size: {
@@ -194,13 +196,15 @@ class RAMChart extends React.Component {
   _renderChart(d) {
     let x = ['x'];
     let ram = ['ram'];
-    for (let i = 0; i < d.length; i++) {
-      x[i+1] = new Date(d[i].Time);
-      let m = d[i].Data.system.memory;
-      let used = m.used-m.cached-m.buffers;
-      let total = m.total;
-      let p = used/total * 100;
-      ram[i+1] = p.toFixed(2);
+    if (d !== null) {
+      for (let i = 0; i < d.length; i++) {
+        x[i+1] = new Date(d[i].Time);
+        let m = d[i].Data.system.memory;
+        let used = m.used-m.cached-m.buffers;
+        let total = m.total;
+        let p = used/total * 100;
+        ram[i+1] = p.toFixed(2);
+      }
     }
     this.chart = c3.generate({
       size: {
