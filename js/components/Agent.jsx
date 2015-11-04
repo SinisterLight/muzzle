@@ -25,7 +25,7 @@ export class Agent extends React.Component {
   }
   componentDidMount() {
     this.loadDataFromServer();
-    this.intervalID = setInterval(this.loadDataFromServer, 2000);
+    this.intervalID = setInterval(this.loadDataFromServer, 5000);
   }
   componentWillUnmount() {
     clearInterval(this.intervalID);
