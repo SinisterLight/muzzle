@@ -62,7 +62,7 @@ const AgentStatus = (props) => {
   const styles = {
     online: {
       ...baseStyle,
-      color:'#004400',
+      color:'#fff',
       backgroundColor:'#88cc88',
     },
     offline: {
