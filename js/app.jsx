@@ -8,7 +8,7 @@ import { Auth } from './auth'
 
 import '../css/muzzle.css'
 
-export const APIserver = 'http://192.168.1.119:3000'
+export const APIserver = 'http://192.168.1.119:3000/api'
 
 class App extends React.Component {
   constructor(props) {
@@ -109,7 +109,7 @@ const About = (props) => {
 
 class Agents extends React.Component {
   render() {
-    return <AgentTableWrapper source={APIserver+'/api/agents'} pollInterval={2000}/>
+    return <AgentTableWrapper source={APIserver+'/agents'} pollInterval={2000}/>
   }
 }
 
@@ -130,7 +130,7 @@ class AgentTableWrapper extends React.Component {
         this.setState({data: data});
       }.bind(this),
       error: function(xhr, status, err) {
-        console.error(this.props.url, status, err.toString());
+        console.error(this.props.source, status, err.toString());
       }.bind(this),
     })
   }

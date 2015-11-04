@@ -140,7 +140,7 @@ class SummarizedSystemData extends React.Component {
   }
   loadDataFromServer() {
     $.ajax({
-      url: APIserver+'/api/events?uid='+this.props.uid+'&policy_name=default_system_data',
+      url: APIserver+'/events?uid='+this.props.uid+'&policy_name=default_system_data',
       dataType: 'json',
       cache: false,
       success: function(data) {
