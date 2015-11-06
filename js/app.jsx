@@ -8,7 +8,7 @@ import { Auth } from './auth'
 
 import '../css/muzzle.css'
 
-export const APIserver = 'http://192.168.1.119:3000/api'
+export const APIserver = 'http://localhost:3456/api'
 
 class App extends React.Component {
   constructor(props) {
