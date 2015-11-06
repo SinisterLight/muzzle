@@ -109,7 +109,6 @@ class AgentCharts extends React.Component {
       <div>
         <CPUChart data={this.state.data}/>
         <RAMChart data={this.state.data}/>
-        <DiskCharts data={this.state.data}/>
       </div>
     )
   }
@@ -264,22 +263,6 @@ class RAMChart extends React.Component {
       <div style={baseStyle}>
         <h5>RAM</h5>
         <div id="ram-chart"></div>
-      </div>
-    )
-  }
-}
-
-class DiskCharts extends React.Component {
-  constructor(props) {
-    super(props);
-  }
-  render() {
-    const baseStyle = {
-      margin: '0.6rem 0',
-    }
-    return (
-      <div style={baseStyle}>
-        <h5>Disks</h5>
       </div>
     )
   }
