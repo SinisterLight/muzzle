@@ -121,10 +121,10 @@ class AgentBox extends React.Component {
     };
     return(
       <Link to={agentLink} style={{textDecoration:'none'}}>
-      <div className="col-md-3" style={styles[this.props.agent.status]}>
-        <div style={styles.hostname}>{this.props.agent.host_name}</div>
-        <SummarizedSystemData uid={this.props.agent.uid} status={this.props.agent.status} pollInterval={2000}/>
-      </div>
+        <div className="col-md-3" style={styles[this.props.agent.status]}>
+          <div style={styles.hostname}>{this.props.agent.host_name}</div>
+          <SummarizedSystemData uid={this.props.agent.uid} status={this.props.agent.status} pollInterval={2000}/>
+        </div>
       </Link>
     )
   }
